@@ -1,3 +1,3 @@
 # Generate a legacy address.
 
-bitcoin-cli -regtest getnewaddress
+bitcoin-cli -regtest getnewaddress "" "legacy"
