@@ -95,12 +95,8 @@ send_with_fee() {
   
   echo "Sending $amount BTC from $from_wallet to $to_address..."
   
-  # Use settxfee to set a reasonable fee for regtest
-  bitcoin-cli -regtest -rpcwallet=$from_wallet settxfee 0.00001
-  check_cmd "Setting transaction fee"
-  
-  # Send the transaction
-  local txid=$(bitcoin-cli -regtest -rpcwallet=$from_wallet sendtoaddress "$to_address" "$amount" "$comment")
+  # Send the transaction (use named arguments to include fee_rate compatible with v30.0)
+  local txid=$(bitcoin-cli -regtest -named -rpcwallet=$from_wallet sendtoaddress address="$to_address" amount="$amount" comment="$comment" fee_rate=1.0)
   check_cmd "Sending transaction"
   
   echo "Transaction sent! TXID: ${txid:0:16}... (truncated)"
